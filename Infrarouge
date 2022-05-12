@@ -1,0 +1,24 @@
+
+#include <IRremote.h>
+ 
+const int IR_PIN = 7;
+IRrecv irrecv(IR_PIN);
+decode_results results;
+ 
+void setup(){
+  Serial.begin(9600);
+  irrecv.enableIRIn();
+  irrecv.blink13(true);
+}
+ 
+void loop(){
+  if (irrecv.decode(&results)){
+      if (results.value == 0x490) {
+        Serial.println("Vol UP");
+      } else if (results.value == 0xc90) {
+        Serial.println("Vol DOWN");
+      }
+      
+      irrecv.resume();
+  }
+}
